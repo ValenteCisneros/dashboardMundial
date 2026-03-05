@@ -7,34 +7,30 @@ const withLatency = (data, delay = NETWORK_DELAY_MS) =>
 
 export const DEFAULT_DATE_RANGE = {
   preset: 'last_7_days',
-  label: 'Last 7 days',
+  label: 'Últimos 7 días',
 };
 
-/** Returns an array of formatted date strings for charts (e.g. "01 Mar 2026"). */
-function getDateLabels(preset, count) {
+const FULL_RANGE_DAYS = 90;
+
+/** Build 90 days of { date (YYYY-MM-DD), label } from today backwards for client-side filtering. */
+function buildFullDateSeries() {
   const today = new Date();
-  let start = new Date(today);
-  if (preset === 'this_month') {
-    start = new Date(today.getFullYear(), today.getMonth(), 1);
-  } else {
-    start.setDate(start.getDate() - (count - 1));
+  today.setHours(0, 0, 0, 0);
+  const out = [];
+  const d = new Date(today);
+  for (let i = 0; i < FULL_RANGE_DAYS; i++) {
+    const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const label = d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, ' ');
+    out.push({ date, label });
+    d.setDate(d.getDate() - 1);
   }
-  const labels = [];
-  const d = new Date(start);
-  for (let i = 0; i < count; i++) {
-    labels.push(
-      d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, ' ')
-    );
-    d.setDate(d.getDate() + 1);
-  }
-  return labels;
+  return out.reverse();
 }
 
 const buildMockDashboardPayload = (filters) => {
   const { dateRange, compareToPrevious } = filters;
-  const preset = dateRange?.preset || 'last_7_days';
-  const dateLabels7 = getDateLabels(preset, 7);
-  const dateLabels14 = getDateLabels(preset, 14);
+  const fullDateSeries = buildFullDateSeries();
+  const n = fullDateSeries.length;
 
   const detectedUsersTotal = 1200;
   const players = 540;
@@ -92,19 +88,22 @@ const buildMockDashboardPayload = (filters) => {
     qrEntrants: 15 + index * 2,
   }));
 
-  const leadVolumeOverTime = dateLabels7.map((label, index) => ({
+  const leadVolumeOverTime = fullDateSeries.map(({ date, label }, index) => ({
+    date,
     label,
-    leads: 30 + index * 8,
+    leads: 30 + (index % 30) * 2 + Math.round(5 * Math.sin(index / 7)),
   }));
 
-  const averageSessionTimeSeries = dateLabels7.map((label, index) => ({
+  const averageSessionTimeSeries = fullDateSeries.map(({ date, label }, index) => ({
+    date,
     label,
-    minutes: 4 + index * 0.2,
+    minutes: 4 + (index % 14) * 0.15 + Math.sin(index / 10) * 0.3,
   }));
 
-  const churnRateSeries = dateLabels7.map((label, index) => ({
+  const churnRateSeries = fullDateSeries.map(({ date, label }, index) => ({
+    date,
     label,
-    churnPct: 10 + index * 0.5,
+    churnPct: 10 + (index % 20) * 0.3 + Math.sin(index / 8) * 0.5,
   }));
 
   const payload = {
@@ -112,6 +111,7 @@ const buildMockDashboardPayload = (filters) => {
       dateRange,
       compareToPrevious,
       generatedAt: new Date().toISOString(),
+      fullRangeDays: FULL_RANGE_DAYS,
     },
     executiveOverview: {
       kpis: {
@@ -224,15 +224,17 @@ const buildMockDashboardPayload = (filters) => {
         current: 82,
         previous: 78,
         trend: 'up',
-        series: dateLabels7.map((label, index) => ({
+        series: fullDateSeries.map(({ date, label }, index) => ({
+          date,
           label,
-          value: 76 + index,
+          value: 76 + (index % 25) + Math.round(3 * Math.sin(index / 5)),
         })),
       },
       leadVolumeOverTime,
-      gameStartsOverTime: dateLabels7.map((label, index) => ({
+      gameStartsOverTime: fullDateSeries.map(({ date, label }, index) => ({
+        date,
         label,
-        starts: gameStarters / 7 + index * 5,
+        starts: Math.round(gameStarters / 7 + (index % 14) * 3 + Math.sin(index / 6) * 4),
       })),
       tournamentParticipation: {
         totalParticipants: 260,
@@ -337,9 +339,10 @@ const buildMockDashboardPayload = (filters) => {
         previous: 11800,
         changePct: 5.1,
         trend: 'up',
-        dailyTrend: dateLabels14.map((dateLabel, i) => ({
-          date: dateLabel,
-          reach: 10000 + Math.round(800 * Math.sin(i * 0.5) + 1200 * (i / 14)),
+        dailyTrend: fullDateSeries.map(({ date, label }, i) => ({
+          date,
+          label,
+          reach: 10000 + Math.round(800 * Math.sin(i * 0.5) + 400 * (i / n) + 200 * Math.sin(i / 5)),
         })),
       };
       const hours = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
@@ -407,9 +410,10 @@ const buildMockDashboardPayload = (filters) => {
         previous: 7.6,
         changePct: 10.5,
         trend: 'up',
-        series: dateLabels14.map((dateLabel, i) => ({
-          date: dateLabel,
-          revenuePerClick: Number((7.0 + (i / 14) * 2.0 + Math.sin(i * 0.4) * 0.6).toFixed(2)),
+        series: fullDateSeries.map(({ date, label }, i) => ({
+          date,
+          label,
+          revenuePerClick: Number((7.0 + (i / n) * 2.0 + Math.sin(i * 0.4) * 0.6).toFixed(2)),
         })),
       };
       const revenuePerLead = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { getDateRangeForPreset } from '../../utils/dateRangeUtils';
 import { useDashboard } from '../../context/DashboardContext';
 
 const DATE_PRESETS = [
@@ -8,7 +9,7 @@ const DATE_PRESETS = [
 ];
 
 export const TopBar = ({ activeTabTitle }) => {
-  const { dateRange, setDateRange, lastUpdated, refresh, status } = useDashboard();
+  const { dateRange, setDateRange, lastUpdated, status } = useDashboard();
 
   const handleDateChange = (event) => {
     const presetId = event.target.value;
@@ -16,9 +17,9 @@ export const TopBar = ({ activeTabTitle }) => {
     const nextRange = {
       preset: presetId,
       label: preset?.label || presetId,
+      ...getDateRangeForPreset(presetId),
     };
     setDateRange(nextRange);
-    refresh({ dateRange: nextRange });
   };
 
   const formattedUpdated =

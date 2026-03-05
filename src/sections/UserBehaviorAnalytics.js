@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Bar,
   BarChart,
@@ -14,9 +14,22 @@ import { useDashboard } from '../context/DashboardContext';
 import { ChartCard } from '../components/common/ChartCard';
 import { SkeletonBlock } from '../components/common/SkeletonBlock';
 import { SectionIcon } from '../components/common/SectionIcon';
+import { ChartEmptyState } from '../components/common/ChartEmptyState';
+import { filterSeriesByDateRange } from '../utils/dateRangeUtils';
 
 export const UserBehaviorAnalytics = () => {
-  const { data, status } = useDashboard();
+  const { data, status, dateRange } = useDashboard();
+  const startDate = dateRange?.startDate;
+  const endDate = dateRange?.endDate;
+
+  const filteredLeadVolume = useMemo(
+    () => filterSeriesByDateRange(data?.userBehavior?.leadVolumeOverTime ?? [], startDate, endDate),
+    [data?.userBehavior?.leadVolumeOverTime, startDate, endDate]
+  );
+  const filteredQrCompletion = useMemo(
+    () => filterSeriesByDateRange(data?.userBehavior?.qrDataCompletionRate?.series ?? [], startDate, endDate),
+    [data?.userBehavior?.qrDataCompletionRate?.series, startDate, endDate]
+  );
 
   if (status === 'loading' && !data) {
     return (
@@ -126,8 +139,11 @@ export const UserBehaviorAnalytics = () => {
               </span>
             }
           >
+            {filteredQrCompletion.length === 0 ? (
+              <ChartEmptyState />
+            ) : (
             <ResponsiveContainer width="100%" height={220}>
-              <LineChart data={userBehavior.qrDataCompletionRate.series}>
+              <LineChart data={filteredQrCompletion}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
                 <XAxis dataKey="label" stroke="#111827" />
                 <YAxis
@@ -154,13 +170,17 @@ export const UserBehaviorAnalytics = () => {
                 />
               </LineChart>
             </ResponsiveContainer>
+            )}
           </ChartCard>
         </div>
 
         <div className="app-grid-half">
           <ChartCard title="Volumen de leads e inicios de juego">
+            {filteredLeadVolume.length === 0 ? (
+              <ChartEmptyState />
+            ) : (
             <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={userBehavior.leadVolumeOverTime}>
+              <BarChart data={filteredLeadVolume}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
                 <XAxis dataKey="label" stroke="#111827" />
                 <YAxis stroke="#111827" />
@@ -181,6 +201,7 @@ export const UserBehaviorAnalytics = () => {
                 />
               </BarChart>
             </ResponsiveContainer>
+            )}
           </ChartCard>
         </div>
 

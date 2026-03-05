@@ -427,6 +427,24 @@
   height: 220px;
 }
 
+.chart-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px dashed #e2e8f0;
+}
+
+.chart-empty-state-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+  text-align: center;
+}
+
 .chart-meta-pill {
   border-radius: 6px;
   padding: 0.25rem 0.6rem;

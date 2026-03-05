@@ -1,10 +1,26 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { getDateRangeForPreset } from '../utils/dateRangeUtils';
 import { DEFAULT_DATE_RANGE, fetchDashboardData } from '../api/dashboardApi';
 
 const DashboardContext = createContext(null);
 
+const PRESET_LABELS = {
+  last_7_days: 'Últimos 7 días',
+  last_30_days: 'Últimos 30 días',
+  this_month: 'Este mes',
+};
+
+function buildInitialDateRange() {
+  const preset = DEFAULT_DATE_RANGE.preset;
+  return {
+    preset,
+    label: PRESET_LABELS[preset] ?? DEFAULT_DATE_RANGE.label,
+    ...getDateRangeForPreset(preset),
+  };
+}
+
 export const DashboardProvider = ({ children }) => {
-  const [dateRange, setDateRange] = useState(DEFAULT_DATE_RANGE);
+  const [dateRange, setDateRange] = useState(() => buildInitialDateRange());
   const [compareToPrevious] = useState(false);
   const [data, setData] = useState(null);
   const [status, setStatus] = useState('idle');

@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from 'react';
+import { filterSeriesByDateRange } from '../utils/dateRangeUtils';
+import { ChartEmptyState } from '../components/common/ChartEmptyState';
 import {
   Bar,
   BarChart,
@@ -98,10 +100,21 @@ function SortableTable({ columns, data, defaultSortKey, className }) {
 }
 
 export const MarketingImpact = () => {
-  const { data, status } = useDashboard();
+  const { data, status, dateRange } = useDashboard();
   const [advertiserFilter, setAdvertiserFilter] = useState('all');
   const [locationFilter, setLocationFilter] = useState('all');
   const [timeSlotFilter, setTimeSlotFilter] = useState('all');
+
+  const startDate = dateRange?.startDate;
+  const endDate = dateRange?.endDate;
+  const filteredDailyReach = useMemo(
+    () => filterSeriesByDateRange(data?.marketingImpact?.estimatedDailyReach?.dailyTrend ?? [], startDate, endDate),
+    [data?.marketingImpact?.estimatedDailyReach?.dailyTrend, startDate, endDate]
+  );
+  const filteredRevenuePerClick = useMemo(
+    () => filterSeriesByDateRange(data?.marketingImpact?.revenuePerClick?.series ?? [], startDate, endDate),
+    [data?.marketingImpact?.revenuePerClick?.series, startDate, endDate]
+  );
 
   if (status === 'loading' && !data) {
     return (
@@ -133,13 +146,6 @@ export const MarketingImpact = () => {
           <div className="app-content-title">Impacto en marketing</div>
         </div>
       </header>
-
-      <div className="ad-executive-block">
-        <h3 className="ad-block-title">Resumen</h3>
-        <div className="ad-health-badge" data-health={summary.health}>
-          {summary.health}
-        </div>
-      </div>
 
       <div className="ad-filters">
         <div className="ad-filter-group">
@@ -273,15 +279,19 @@ export const MarketingImpact = () => {
             </span>
           }
         >
+          {filteredDailyReach.length === 0 ? (
+            <ChartEmptyState />
+          ) : (
           <ResponsiveContainer width="100%" height={240}>
-            <LineChart data={ad.estimatedDailyReach?.dailyTrend || []}>
+            <LineChart data={filteredDailyReach}>
               <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
-              <XAxis dataKey="date" stroke="#111827" />
+              <XAxis dataKey="label" stroke="#111827" />
               <YAxis stroke="#111827" />
               <Tooltip {...TOOLTIP_STYLE} />
               <Line type="monotone" dataKey="reach" stroke="#b91c8c" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
+          )}
         </ChartCard>
       </div>
 
@@ -456,15 +466,19 @@ export const MarketingImpact = () => {
             </span>
           }
         >
+          {filteredRevenuePerClick.length === 0 ? (
+            <ChartEmptyState />
+          ) : (
           <ResponsiveContainer width="100%" height={220}>
-            <LineChart data={ad.revenuePerClick?.series || []}>
+            <LineChart data={filteredRevenuePerClick}>
               <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
-              <XAxis dataKey="date" stroke="#111827" />
+              <XAxis dataKey="label" stroke="#111827" />
               <YAxis stroke="#111827" tickFormatter={(v) => formatMxn(v)} />
               <Tooltip {...TOOLTIP_STYLE} formatter={(v) => formatMxn(v)} />
               <Line type="monotone" dataKey="revenuePerClick" stroke="#b91c8c" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
+          )}
         </ChartCard>
 
         <ChartCard
