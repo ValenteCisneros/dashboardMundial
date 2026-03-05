@@ -58,15 +58,16 @@ export const UserBehaviorAnalytics = () => {
           >
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={userBehavior.sessionTimeDistribution}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                <XAxis dataKey="bucket" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="bucket" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                 />
                 <Bar
@@ -94,15 +95,16 @@ export const UserBehaviorAnalytics = () => {
           >
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={userBehavior.engagementPerHour}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                <XAxis dataKey="hour" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="hour" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                 />
                 <Line
@@ -144,19 +146,20 @@ export const UserBehaviorAnalytics = () => {
           >
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={userBehavior.qrDataCompletionRate.series}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                <XAxis dataKey="label" stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="label" stroke="#6b7280" />
                 <YAxis
-                  stroke="#9ca3af"
+                  stroke="#6b7280"
                   tickFormatter={(v) => `${v.toFixed(0)}%`}
                   domain={['dataMin - 5', 'dataMax + 5']}
                 />
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                   formatter={(value) => `${value.toFixed(1)}%`}
                 />
@@ -179,15 +182,16 @@ export const UserBehaviorAnalytics = () => {
           >
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={userBehavior.leadVolumeOverTime}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                <XAxis dataKey="label" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="label" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                 />
                 <Bar
@@ -222,19 +226,20 @@ export const UserBehaviorAnalytics = () => {
                   <div className="dropoff-title">{section.title}</div>
                   <ResponsiveContainer width="100%" height={160}>
                     <BarChart data={userBehavior.dropOffAnalysis[section.key]}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                      <XAxis dataKey="stage" stroke="#9ca3af" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                      <XAxis dataKey="stage" stroke="#6b7280" />
                       <YAxis
-                        stroke="#9ca3af"
+                        stroke="#6b7280"
                         tickFormatter={(v) => `${v.toFixed(0)}%`}
                         domain={[0, 100]}
                       />
                       <Tooltip
                         contentStyle={{
-                          background: '#020617',
-                          borderRadius: 12,
-                          border: '1px solid rgba(148,163,184,0.7)',
+                          background: '#ffffff',
+                          borderRadius: 8,
+                          border: '1px solid #e5e7eb',
                           fontSize: 12,
+                          color: '#111827',
                         }}
                         formatter={(value) => `${value.toFixed(1)}%`}
                       />

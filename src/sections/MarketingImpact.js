@@ -20,10 +20,11 @@ import { SkeletonBlock } from '../components/common/SkeletonBlock';
 
 const TOOLTIP_STYLE = {
   contentStyle: {
-    background: '#0f172a',
-    borderRadius: 10,
-    border: '1px solid rgba(148, 163, 184, 0.5)',
+    background: '#ffffff',
+    borderRadius: 8,
+    border: '1px solid #e5e7eb',
     fontSize: 12,
+    color: '#111827',
   },
 };
 
@@ -236,9 +237,9 @@ export const MarketingImpact = () => {
                 layout="vertical"
                 margin={{ left: 8, right: 24 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
-                <XAxis type="number" stroke="#94a3b8" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
-                <YAxis type="category" dataKey="adName" width={140} stroke="#94a3b8" tick={{ fontSize: 11 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" horizontal={false} />
+                <XAxis type="number" stroke="#6b7280" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                <YAxis type="category" dataKey="adName" width={140} stroke="#6b7280" tick={{ fontSize: 11 }} />
                 <Tooltip {...TOOLTIP_STYLE} formatter={(v) => v.toLocaleString()} />
                 <Bar dataKey="impressions" fill="url(#adBarGradient)" radius={[0, 4, 4, 0]} maxBarSize={28} />
               </BarChart>
@@ -263,9 +264,9 @@ export const MarketingImpact = () => {
         >
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={ad.averageFrequencyPerUser?.distribution || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-              <XAxis dataKey="bucket" stroke="#94a3b8" />
-              <YAxis stroke="#94a3b8" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+              <XAxis dataKey="bucket" stroke="#6b7280" />
+              <YAxis stroke="#6b7280" />
               <Tooltip {...TOOLTIP_STYLE} />
               <Bar dataKey="users" fill="url(#adFreqGradient)" radius={[6, 6, 0, 0]} maxBarSize={48} />
               <defs>
@@ -284,9 +285,9 @@ export const MarketingImpact = () => {
         >
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={ad.averageExposureTimePerAd || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-              <XAxis dataKey="advertiser" stroke="#94a3b8" tick={{ fontSize: 10 }} />
-              <YAxis stroke="#94a3b8" tickFormatter={(v) => `${v}s`} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+              <XAxis dataKey="advertiser" stroke="#6b7280" tick={{ fontSize: 10 }} />
+              <YAxis stroke="#6b7280" tickFormatter={(v) => `${v}s`} />
               <Tooltip {...TOOLTIP_STYLE} formatter={(v) => `${v} sec`} />
               <Bar dataKey="seconds" fill="url(#adExposureGradient)" radius={[6, 6, 0, 0]} maxBarSize={40} />
               <defs>
@@ -313,9 +314,9 @@ export const MarketingImpact = () => {
         >
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={ad.estimatedDailyReach?.dailyTrend || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-              <XAxis dataKey="date" stroke="#94a3b8" />
-              <YAxis stroke="#94a3b8" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+              <XAxis dataKey="date" stroke="#6b7280" />
+              <YAxis stroke="#6b7280" />
               <Tooltip {...TOOLTIP_STYLE} />
               <Line type="monotone" dataKey="reach" stroke="#a855f7" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
@@ -363,9 +364,9 @@ export const MarketingImpact = () => {
                 data={ad.impressionsByTimeSlot?.stackedByHour || []}
                 margin={{ top: 8, right: 8 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                <XAxis dataKey="hour" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="hour" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip {...TOOLTIP_STYLE} />
                 <Legend />
                 <Bar dataKey="Tourism Board" stackId="a" fill="#a855f7" />
@@ -488,9 +489,9 @@ export const MarketingImpact = () => {
                 layout="vertical"
                 margin={{ left: 120, right: 24 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
-                <XAxis type="number" stroke="#94a3b8" tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v} />
-                <YAxis type="category" dataKey="label" width={110} stroke="#94a3b8" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" horizontal={false} />
+                <XAxis type="number" stroke="#6b7280" tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v} />
+                <YAxis type="category" dataKey="label" width={110} stroke="#6b7280" />
                 <Tooltip {...TOOLTIP_STYLE} formatter={(v) => v.toLocaleString()} />
                 <Bar dataKey="value" fill="url(#adFunnelGradient)" radius={[0, 4, 4, 0]} maxBarSize={44} />
                 <defs>
@@ -519,9 +520,9 @@ export const MarketingImpact = () => {
         >
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={ad.revenuePerClick?.series || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-              <XAxis dataKey="date" stroke="#94a3b8" />
-              <YAxis stroke="#94a3b8" tickFormatter={(v) => formatMxn(v)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+              <XAxis dataKey="date" stroke="#6b7280" />
+              <YAxis stroke="#6b7280" tickFormatter={(v) => formatMxn(v)} />
               <Tooltip {...TOOLTIP_STYLE} formatter={(v) => formatMxn(v)} />
               <Line type="monotone" dataKey="revenuePerClick" stroke="#22c55e" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
