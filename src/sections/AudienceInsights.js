@@ -59,7 +59,7 @@ export const AudienceInsights = () => {
           >
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={audienceInsights.nationalities}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
                 <XAxis dataKey="countryName" stroke="#9ca3af" />
                 <YAxis
                   stroke="#9ca3af"
@@ -68,10 +68,11 @@ export const AudienceInsights = () => {
                 />
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                   formatter={(value, _name, { payload }) =>
                     [`${value.toFixed(1)}%`, payload.countryCode]
@@ -109,10 +110,11 @@ export const AudienceInsights = () => {
               <PieChart>
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                   formatter={(value, name) => [`${value}%`, name]}
                 />
@@ -146,7 +148,7 @@ export const AudienceInsights = () => {
           >
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={audienceInsights.demographics.ageBuckets}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
                 <XAxis dataKey="bucket" stroke="#9ca3af" />
                 <YAxis
                   stroke="#9ca3af"
@@ -155,10 +157,11 @@ export const AudienceInsights = () => {
                 />
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                   formatter={(value) => `${value.toFixed(1)}%`}
                 />
@@ -186,7 +189,7 @@ export const AudienceInsights = () => {
           >
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={audienceInsights.demographics.genderSplit}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
                 <XAxis dataKey="label" stroke="#9ca3af" />
                 <YAxis
                   stroke="#9ca3af"
@@ -195,10 +198,11 @@ export const AudienceInsights = () => {
                 />
                 <Tooltip
                   contentStyle={{
-                    background: '#020617',
-                    borderRadius: 12,
-                    border: '1px solid rgba(148,163,184,0.7)',
+                    background: '#ffffff',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
                     fontSize: 12,
+                    color: '#111827',
                   }}
                   formatter={(value) => `${value.toFixed(1)}%`}
                 />
