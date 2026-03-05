@@ -1,9 +1,9 @@
 import React from 'react';
 
 const getTrendLabel = (trend) => {
-  if (trend === 'up') return 'Improving';
-  if (trend === 'down') return 'Declining';
-  return 'Stable';
+  if (trend === 'up') return 'En alza';
+  if (trend === 'down') return 'A la baja';
+  return 'Estable';
 };
 
 export const KpiCard = ({
@@ -62,7 +62,7 @@ export const KpiCard = ({
         {formattedChange && (
           <div className="kpi-delta">
             <span className="kpi-delta-value">{formattedChange}</span>
-            {formattedPrevious && <span className="kpi-delta-previous">vs {formattedPrevious}</span>}
+            {formattedPrevious && <span className="kpi-delta-previous">vs. {formattedPrevious}</span>}
           </div>
         )}
       </div>

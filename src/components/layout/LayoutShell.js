@@ -2,7 +2,6 @@ import React from 'react';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 import { useDashboard } from '../../context/DashboardContext';
-import { ExecutiveOverview } from '../../sections/ExecutiveOverview';
 import { UserBehaviorAnalytics } from '../../sections/UserBehaviorAnalytics';
 import { TourismContentAnalytics } from '../../sections/TourismContentAnalytics';
 import { AudienceInsights } from '../../sections/AudienceInsights';
@@ -10,12 +9,11 @@ import { MarketingImpact } from '../../sections/MarketingImpact';
 import { ReportsExport } from '../../sections/ReportsExport';
 
 const TAB_TITLES = {
-  executive: 'Executive overview',
-  behavior: 'User behavior analytics',
-  tourism: 'Tourism content analytics',
-  audience: 'Audience insights',
-  marketing: 'Marketing impact',
-  reports: 'Reports and export',
+  behavior: 'Análisis de comportamiento',
+  tourism: 'Contenido turístico',
+  audience: 'Insights de audiencia',
+  marketing: 'Impacto en marketing',
+  reports: 'Reportes y exportación',
 };
 
 export const LayoutShell = ({ activeTab, onChangeTab }) => {
@@ -27,21 +25,15 @@ export const LayoutShell = ({ activeTab, onChangeTab }) => {
         <div className="app-content-card">
           <div className="app-content-header">
             <div className="app-content-title-block">
-              <div className="app-content-title">Unable to load analytics</div>
-              <div className="app-content-subtitle">
-                There was a problem retrieving data from the analytics service. Please try again or
-                contact your system administrator.
-              </div>
+              <div className="app-content-title">No se pudieron cargar los análisis</div>
             </div>
           </div>
-          <pre className="error-panel">{error?.message || 'Unknown error'}</pre>
+          <pre className="error-panel">{error?.message || 'Error desconocido'}</pre>
         </div>
       );
     }
 
     switch (activeTab) {
-      case 'executive':
-        return <ExecutiveOverview />;
       case 'behavior':
         return <UserBehaviorAnalytics />;
       case 'tourism':
@@ -53,11 +45,11 @@ export const LayoutShell = ({ activeTab, onChangeTab }) => {
       case 'reports':
         return <ReportsExport />;
       default:
-        return <ExecutiveOverview />;
+        return <UserBehaviorAnalytics />;
     }
   };
 
-  const activeTitle = TAB_TITLES[activeTab] || TAB_TITLES.executive;
+  const activeTitle = TAB_TITLES[activeTab] || TAB_TITLES.behavior;
 
   return (
     <div className="app-shell">

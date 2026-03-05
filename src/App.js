@@ -4,7 +4,7 @@ import { DashboardProvider } from './context/DashboardContext';
 import { LayoutShell } from './components/layout/LayoutShell';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('executive');
+  const [activeTab, setActiveTab] = useState('behavior');
 
   return (
     <DashboardProvider>

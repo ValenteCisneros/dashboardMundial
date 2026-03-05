@@ -5,7 +5,7 @@ const DashboardContext = createContext(null);
 
 export const DashboardProvider = ({ children }) => {
   const [dateRange, setDateRange] = useState(DEFAULT_DATE_RANGE);
-  const [compareToPrevious, setCompareToPrevious] = useState(true);
+  const [compareToPrevious] = useState(false);
   const [data, setData] = useState(null);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
@@ -47,7 +47,6 @@ export const DashboardProvider = ({ children }) => {
       compareToPrevious,
       lastUpdated,
       setDateRange,
-      setCompareToPrevious,
       refresh: load,
     }),
     [data, status, error, dateRange, compareToPrevious, lastUpdated, load]

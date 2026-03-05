@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDashboard } from '../context/DashboardContext';
 import { SkeletonBlock } from '../components/common/SkeletonBlock';
+import { SectionIcon } from '../components/common/SectionIcon';
 
 export const ReportsExport = () => {
   const { data, status, dateRange, compareToPrevious } = useDashboard();
@@ -24,10 +25,8 @@ export const ReportsExport = () => {
       <section className="app-content-card">
         <div className="app-content-header">
           <div className="app-content-title-block">
-            <div className="app-content-title">Reports and export</div>
-            <div className="app-content-subtitle">
-              Governance-ready export views for distribution and archiving.
-            </div>
+            <SectionIcon name="reports" />
+            <div className="app-content-title">Reportes y exportación</div>
           </div>
         </div>
         <SkeletonBlock lines={4} />
@@ -43,79 +42,67 @@ export const ReportsExport = () => {
     <section className="app-content-card">
       <header className="app-content-header">
         <div className="app-content-title-block">
-          <div className="app-content-title">Reports and export</div>
-          <div className="app-content-subtitle">
-            Prepare executive-ready reports, export to PDF or CSV, and align on a common view of
-            performance.
-          </div>
+          <SectionIcon name="reports" />
+          <div className="app-content-title">Reportes y exportación</div>
         </div>
       </header>
 
       <div className="reports-layout">
         <div className="reports-panel">
-          <h3 className="reports-panel-title">Export configuration</h3>
-          <p className="reports-panel-copy">
-            Choose the format and scope for your export. All exports respect the active date range
-            and comparison settings from the top bar.
-          </p>
+          <h3 className="reports-panel-title">Configuración de exportación</h3>
 
           <div className="reports-grid">
             <div className="reports-card">
-              <h4 className="reports-card-title">PDF executive brief</h4>
-              <p className="reports-card-copy">
-                Designed for senior leadership consumption, including key KPIs, conversion funnels,
-                and audience summaries.
+              <h4 className="reports-card-title">Informe ejecutivo PDF</h4>
+              <p className="reports-card-copy" aria-hidden="true">
+                Resumen para liderazgo con KPIs, embudos de conversión y audiencia.
               </p>
               <button
                 type="button"
                 className="reports-export-button"
                 onClick={() => handleExport('pdf')}
               >
-                Export PDF
+                Exportar PDF
               </button>
             </div>
 
             <div className="reports-card">
-              <h4 className="reports-card-title">CSV data extract</h4>
-              <p className="reports-card-copy">
-                Row-level data aligned to the structures used by the marketing and insights teams
-                for further analysis.
+              <h4 className="reports-card-title">Datos en CSV</h4>
+              <p className="reports-card-copy" aria-hidden="true">
+                Datos por fila para análisis en equipos de marketing e insights.
               </p>
               <button
                 type="button"
                 className="reports-export-button"
                 onClick={() => handleExport('csv')}
               >
-                Export CSV
+                Exportar CSV
               </button>
             </div>
           </div>
         </div>
 
         <div className="reports-summary">
-          <h3 className="reports-panel-title">Current export scope</h3>
+          <h3 className="reports-panel-title">Alcance de exportación actual</h3>
           <ul className="reports-summary-list">
             <li>
-              <span className="reports-summary-label">Date range</span>
+              <span className="reports-summary-label">Rango de fechas</span>
               <span className="reports-summary-value">{dateRange?.label}</span>
             </li>
             <li>
-              <span className="reports-summary-label">Comparison</span>
+              <span className="reports-summary-label">Alcance</span>
+              <span className="reports-summary-value">Periodo actual</span>
+            </li>
+            <li>
+              <span className="reports-summary-label">KPIs principales incluidos</span>
               <span className="reports-summary-value">
-                {compareToPrevious ? 'Includes previous period comparison' : 'Current period only'}
+                Tiempo de sesión, entrada y conversión QR, abandono, desglose de usuarios detectados.
               </span>
             </li>
             <li>
-              <span className="reports-summary-label">Core KPIs included</span>
+              <span className="reports-summary-label">Secciones incluidas</span>
               <span className="reports-summary-value">
-                Average session time, QR entry and conversion, churn, detected users breakdown.
-              </span>
-            </li>
-            <li>
-              <span className="reports-summary-label">Sections included</span>
-              <span className="reports-summary-value">
-                Executive overview, user behaviour, tourism content, audience insights, marketing
-                impact.
+                Comportamiento, contenido turístico, insights de audiencia, impacto en marketing.
               </span>
             </li>
           </ul>

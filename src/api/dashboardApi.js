@@ -10,8 +10,31 @@ export const DEFAULT_DATE_RANGE = {
   label: 'Last 7 days',
 };
 
+/** Returns an array of formatted date strings for charts (e.g. "01 Mar 2026"). */
+function getDateLabels(preset, count) {
+  const today = new Date();
+  let start = new Date(today);
+  if (preset === 'this_month') {
+    start = new Date(today.getFullYear(), today.getMonth(), 1);
+  } else {
+    start.setDate(start.getDate() - (count - 1));
+  }
+  const labels = [];
+  const d = new Date(start);
+  for (let i = 0; i < count; i++) {
+    labels.push(
+      d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, ' ')
+    );
+    d.setDate(d.getDate() + 1);
+  }
+  return labels;
+}
+
 const buildMockDashboardPayload = (filters) => {
   const { dateRange, compareToPrevious } = filters;
+  const preset = dateRange?.preset || 'last_7_days';
+  const dateLabels7 = getDateLabels(preset, 7);
+  const dateLabels14 = getDateLabels(preset, 14);
 
   const detectedUsersTotal = 1200;
   const players = 540;
@@ -69,18 +92,18 @@ const buildMockDashboardPayload = (filters) => {
     qrEntrants: 15 + index * 2,
   }));
 
-  const leadVolumeOverTime = Array.from({ length: 7 }).map((_, index) => ({
-    label: `Day ${index + 1}`,
+  const leadVolumeOverTime = dateLabels7.map((label, index) => ({
+    label,
     leads: 30 + index * 8,
   }));
 
-  const averageSessionTimeSeries = Array.from({ length: 7 }).map((_, index) => ({
-    label: `Day ${index + 1}`,
+  const averageSessionTimeSeries = dateLabels7.map((label, index) => ({
+    label,
     minutes: 4 + index * 0.2,
   }));
 
-  const churnRateSeries = Array.from({ length: 7 }).map((_, index) => ({
-    label: `Day ${index + 1}`,
+  const churnRateSeries = dateLabels7.map((label, index) => ({
+    label,
     churnPct: 10 + index * 0.5,
   }));
 
@@ -201,14 +224,14 @@ const buildMockDashboardPayload = (filters) => {
         current: 82,
         previous: 78,
         trend: 'up',
-        series: Array.from({ length: 7 }).map((_, index) => ({
-          label: `Day ${index + 1}`,
+        series: dateLabels7.map((label, index) => ({
+          label,
           value: 76 + index,
         })),
       },
       leadVolumeOverTime,
-      gameStartsOverTime: Array.from({ length: 7 }).map((_, index) => ({
-        label: `Day ${index + 1}`,
+      gameStartsOverTime: dateLabels7.map((label, index) => ({
+        label,
         starts: gameStarters / 7 + index * 5,
       })),
       tournamentParticipation: {
@@ -279,7 +302,6 @@ const buildMockDashboardPayload = (filters) => {
         { id: 'adv_4', name: 'Local Experiences', brandId: 'brand_4' },
         { id: 'adv_5', name: 'Car Rental Co', brandId: 'brand_5' },
       ];
-      const adIds = ['ad_tb_hero', 'ad_ra_banner', 'ad_hg_sidebar', 'ad_le_video', 'ad_cr_footer', 'ad_tb_promo', 'ad_ra_sky'];
       const totalImpressionsPerAd = [
         { adId: 'ad_tb_hero', adName: 'Hero – Tourism Board', advertiser: 'Tourism Board', impressions: 42800 },
         { adId: 'ad_ra_banner', adName: 'Banner – Regional Airlines', advertiser: 'Regional Airlines', impressions: 35200 },
@@ -315,8 +337,8 @@ const buildMockDashboardPayload = (filters) => {
         previous: 11800,
         changePct: 5.1,
         trend: 'up',
-        dailyTrend: Array.from({ length: 14 }).map((_, i) => ({
-          date: `Day ${i + 1}`,
+        dailyTrend: dateLabels14.map((dateLabel, i) => ({
+          date: dateLabel,
           reach: 10000 + Math.round(800 * Math.sin(i * 0.5) + 1200 * (i / 14)),
         })),
       };
@@ -385,8 +407,8 @@ const buildMockDashboardPayload = (filters) => {
         previous: 7.6,
         changePct: 10.5,
         trend: 'up',
-        series: Array.from({ length: 14 }).map((_, i) => ({
-          date: `Day ${i + 1}`,
+        series: dateLabels14.map((dateLabel, i) => ({
+          date: dateLabel,
           revenuePerClick: Number((7.0 + (i / 14) * 2.0 + Math.sin(i * 0.4) * 0.6).toFixed(2)),
         })),
       };
@@ -448,7 +470,7 @@ const buildMockDashboardPayload = (filters) => {
 export const fetchDashboardData = async (filters = {}) => {
   const mergedFilters = {
     dateRange: filters.dateRange || DEFAULT_DATE_RANGE,
-    compareToPrevious: filters.compareToPrevious ?? true,
+    compareToPrevious: filters.compareToPrevious ?? false,
   };
 
   return withLatency(buildMockDashboardPayload(mergedFilters));

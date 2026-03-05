@@ -1,36 +1,18 @@
 import React from 'react';
+import {
+  Activity,
+  MapPin,
+  Users,
+  Megaphone,
+  FileDown,
+} from 'lucide-react';
 
 const NAV_ITEMS = [
-  {
-    id: 'executive',
-    title: 'Executive overview',
-    subtitle: 'Core KPIs and trends',
-  },
-  {
-    id: 'behavior',
-    title: 'User behavior',
-    subtitle: 'Sessions, engagement, churn',
-  },
-  {
-    id: 'tourism',
-    title: 'Tourism content',
-    subtitle: 'Content performance',
-  },
-  {
-    id: 'audience',
-    title: 'Audience insights',
-    subtitle: 'Nationalities, repeat users',
-  },
-  {
-    id: 'marketing',
-    title: 'Marketing impact',
-    subtitle: 'Leads and attribution',
-  },
-  {
-    id: 'reports',
-    title: 'Reports & export',
-    subtitle: 'Exports and governance',
-  },
+  { id: 'behavior', title: 'Comportamiento de usuarios', icon: Activity },
+  { id: 'tourism', title: 'Contenido turístico', icon: MapPin },
+  { id: 'audience', title: 'Insights de audiencia', icon: Users },
+  { id: 'marketing', title: 'Impacto en marketing', icon: Megaphone },
+  { id: 'reports', title: 'Reportes y exportación', icon: FileDown },
 ];
 
 export const Sidebar = ({ activeTab, onChangeTab }) => {
@@ -39,15 +21,18 @@ export const Sidebar = ({ activeTab, onChangeTab }) => {
       <div className="app-sidebar-header">
         <div className="app-sidebar-logo" />
         <div className="app-sidebar-title">
-          <span className="app-sidebar-title-main">Kiosk Analytics</span>
-          <span className="app-sidebar-title-sub">Tourism & marketing insights</span>
+          <span className="app-sidebar-title-main">
+            Woho Real-Time Marketing Metrics – Kiosko Mundial Monterrey
+          </span>
+          <span className="app-sidebar-title-sub" aria-hidden="true" />
         </div>
       </div>
 
       <nav className="app-sidebar-nav">
-        <div className="app-sidebar-nav-section-label">Sections</div>
+        <div className="app-sidebar-nav-section-label">Secciones</div>
         {NAV_ITEMS.map((item) => {
           const isActive = item.id === activeTab;
+          const Icon = item.icon;
 
           return (
             <button
@@ -58,9 +43,11 @@ export const Sidebar = ({ activeTab, onChangeTab }) => {
               }`}
               onClick={() => onChangeTab(item.id)}
             >
-              <div className="app-sidebar-nav-item-label">
+              <div className="app-sidebar-nav-item-inner">
+                <span className="app-sidebar-nav-item-icon" aria-hidden="true">
+                  <Icon size={20} strokeWidth={1.8} />
+                </span>
                 <span className="app-sidebar-nav-item-title">{item.title}</span>
-                <span className="app-sidebar-nav-item-subtitle">{item.subtitle}</span>
               </div>
               {isActive && <span className="app-sidebar-nav-item-indicator" />}
             </button>
@@ -70,4 +57,3 @@ export const Sidebar = ({ activeTab, onChangeTab }) => {
     </aside>
   );
 };
-

@@ -13,6 +13,7 @@ import {
 import { useDashboard } from '../context/DashboardContext';
 import { ChartCard } from '../components/common/ChartCard';
 import { SkeletonBlock } from '../components/common/SkeletonBlock';
+import { SectionIcon } from '../components/common/SectionIcon';
 
 export const UserBehaviorAnalytics = () => {
   const { data, status } = useDashboard();
@@ -22,10 +23,8 @@ export const UserBehaviorAnalytics = () => {
       <section className="app-content-card">
         <div className="app-content-header">
           <div className="app-content-title-block">
-            <div className="app-content-title">User behavior analytics</div>
-            <div className="app-content-subtitle">
-              Session time distribution, interaction patterns, and drop-off behaviour.
-            </div>
+            <SectionIcon name="behavior" />
+            <div className="app-content-title">Análisis de comportamiento de usuarios</div>
           </div>
         </div>
         <SkeletonBlock lines={6} />
@@ -43,66 +42,51 @@ export const UserBehaviorAnalytics = () => {
     <section className="app-content-card">
       <header className="app-content-header">
         <div className="app-content-title-block">
-          <div className="app-content-title">User behavior analytics</div>
-          <div className="app-content-subtitle">
-            Detailed analysis of how visitors interact with the kiosk over time.
-          </div>
+          <SectionIcon name="behavior" />
+          <div className="app-content-title">Análisis de comportamiento de usuarios</div>
         </div>
       </header>
 
       <div className="app-grid">
         <div className="app-grid-half">
-          <ChartCard
-            title="Session time distribution"
-            subtitle="How long visitors typically stay engaged in a single session."
-          >
+          <ChartCard title="Distribución de tiempo de sesión">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={userBehavior.sessionTimeDistribution}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="bucket" stroke="#6b7280" />
-                <YAxis stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="bucket" stroke="#111827" />
+                <YAxis stroke="#111827" />
                 <Tooltip
                   contentStyle={{
                     background: '#ffffff',
-                    borderRadius: 8,
-                    border: '1px solid #e5e7eb',
+                    borderRadius: 0,
+                    border: '2px solid #000000',
                     fontSize: 12,
                     color: '#111827',
                   }}
                 />
                 <Bar
                   dataKey="users"
-                  radius={[8, 8, 2, 2]}
-                  fill="url(#sessionDistGradient)"
+                  radius={[0, 0, 0, 0]}
+                  fill="#b91c8c"
                   maxBarSize={56}
                 />
-                <defs>
-                  <linearGradient id="sessionDistGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#38bdf8" />
-                    <stop offset="50%" stopColor="#a855f7" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
         </div>
 
         <div className="app-grid-half">
-          <ChartCard
-            title="Engagement per hour"
-            subtitle="Game plays, content views, and QR entries over the day."
-          >
+          <ChartCard title="Interacción por hora">
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={userBehavior.engagementPerHour}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="hour" stroke="#6b7280" />
-                <YAxis stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="hour" stroke="#111827" />
+                <YAxis stroke="#111827" />
                 <Tooltip
                   contentStyle={{
                     background: '#ffffff',
-                    borderRadius: 8,
-                    border: '1px solid #e5e7eb',
+                    borderRadius: 0,
+                    border: '2px solid #000000',
                     fontSize: 12,
                     color: '#111827',
                   }}
@@ -110,22 +94,22 @@ export const UserBehaviorAnalytics = () => {
                 <Line
                   type="monotone"
                   dataKey="players"
-                  stroke="#a855f7"
-                  strokeWidth={2.1}
+                  stroke="#b91c8c"
+                  strokeWidth={2}
                   dot={false}
                 />
                 <Line
                   type="monotone"
                   dataKey="infoViewers"
-                  stroke="#38bdf8"
-                  strokeWidth={2.1}
+                  stroke="#111827"
+                  strokeWidth={2}
                   dot={false}
                 />
                 <Line
                   type="monotone"
                   dataKey="qrEntrants"
-                  stroke="#22c55e"
-                  strokeWidth={2.1}
+                  stroke="#6b7280"
+                  strokeWidth={2}
                   dot={false}
                 />
               </LineChart>
@@ -135,29 +119,27 @@ export const UserBehaviorAnalytics = () => {
 
         <div className="app-grid-half">
           <ChartCard
-            title="QR data completion rate"
-            subtitle="Completion of QR data capture forms over time."
+            title="Tasa de completado de datos QR"
             rightMeta={
               <span className="chart-meta-pill">
-                Current: {userBehavior.qrDataCompletionRate.current}% (vs{' '}
-                {userBehavior.qrDataCompletionRate.previous}%)
+                Actual: {userBehavior.qrDataCompletionRate.current}%
               </span>
             }
           >
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={userBehavior.qrDataCompletionRate.series}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="label" stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="label" stroke="#111827" />
                 <YAxis
-                  stroke="#6b7280"
+                  stroke="#111827"
                   tickFormatter={(v) => `${v.toFixed(0)}%`}
                   domain={['dataMin - 5', 'dataMax + 5']}
                 />
                 <Tooltip
                   contentStyle={{
                     background: '#ffffff',
-                    borderRadius: 8,
-                    border: '1px solid #e5e7eb',
+                    borderRadius: 0,
+                    border: '2px solid #000000',
                     fontSize: 12,
                     color: '#111827',
                   }}
@@ -166,8 +148,8 @@ export const UserBehaviorAnalytics = () => {
                 <Line
                   type="monotone"
                   dataKey="value"
-                  stroke="#22c55e"
-                  strokeWidth={2.3}
+                  stroke="#b91c8c"
+                  strokeWidth={2}
                   dot={{ r: 3 }}
                 />
               </LineChart>
@@ -176,68 +158,56 @@ export const UserBehaviorAnalytics = () => {
         </div>
 
         <div className="app-grid-half">
-          <ChartCard
-            title="Lead volume and game starts"
-            subtitle="Lead capture volume and game initiations across the period."
-          >
+          <ChartCard title="Volumen de leads e inicios de juego">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={userBehavior.leadVolumeOverTime}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="label" stroke="#6b7280" />
-                <YAxis stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="label" stroke="#111827" />
+                <YAxis stroke="#111827" />
                 <Tooltip
                   contentStyle={{
                     background: '#ffffff',
-                    borderRadius: 8,
-                    border: '1px solid #e5e7eb',
+                    borderRadius: 0,
+                    border: '2px solid #000000',
                     fontSize: 12,
                     color: '#111827',
                   }}
                 />
                 <Bar
                   dataKey="leads"
-                  radius={[8, 8, 2, 2]}
-                  fill="url(#leadVolumeGradient)"
+                  radius={[0, 0, 0, 0]}
+                  fill="#b91c8c"
                   maxBarSize={48}
                 />
-                <defs>
-                  <linearGradient id="leadVolumeGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#a855f7" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
         </div>
 
         <div className="app-grid-full">
-          <ChartCard
-            title="Drop-off analysis"
-            subtitle="Completion rates along the main user journeys."
-          >
+          <ChartCard title="Análisis de abandono">
             <div className="dropoff-grid">
               {[
-                { key: 'qrFlow', title: 'QR onboarding flow' },
-                { key: 'gameFlow', title: 'Game flow' },
-                { key: 'infoBrowsing', title: 'Tourism information browsing' },
+                { key: 'qrFlow', title: 'Flujo de onboarding QR' },
+                { key: 'gameFlow', title: 'Flujo del juego' },
+                { key: 'infoBrowsing', title: 'Navegación de información turística' },
               ].map((section) => (
                 <div key={section.key} className="dropoff-column">
                   <div className="dropoff-title">{section.title}</div>
                   <ResponsiveContainer width="100%" height={160}>
                     <BarChart data={userBehavior.dropOffAnalysis[section.key]}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                      <XAxis dataKey="stage" stroke="#6b7280" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                      <XAxis dataKey="stage" stroke="#111827" />
                       <YAxis
-                        stroke="#6b7280"
+                        stroke="#111827"
                         tickFormatter={(v) => `${v.toFixed(0)}%`}
                         domain={[0, 100]}
                       />
                       <Tooltip
                         contentStyle={{
                           background: '#ffffff',
-                          borderRadius: 8,
-                          border: '1px solid #e5e7eb',
+                          borderRadius: 0,
+                          border: '2px solid #000000',
                           fontSize: 12,
                           color: '#111827',
                         }}
@@ -245,17 +215,10 @@ export const UserBehaviorAnalytics = () => {
                       />
                       <Bar
                         dataKey="completionPct"
-                        radius={[8, 8, 2, 2]}
-                        fill="url(#dropoffGradient)"
+                        radius={[0, 0, 0, 0]}
+                        fill="#b91c8c"
                         maxBarSize={40}
                       />
-                      <defs>
-                        <linearGradient id="dropoffGradient" x1="0" y1="0" x2="1" y2="1">
-                          <stop offset="0%" stopColor="#22c55e" />
-                          <stop offset="50%" stopColor="#eab308" />
-                          <stop offset="100%" stopColor="#ef4444" />
-                        </linearGradient>
-                      </defs>
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

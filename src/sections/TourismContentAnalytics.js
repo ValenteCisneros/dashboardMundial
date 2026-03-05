@@ -11,6 +11,7 @@ import {
 import { useDashboard } from '../context/DashboardContext';
 import { ChartCard } from '../components/common/ChartCard';
 import { SkeletonBlock } from '../components/common/SkeletonBlock';
+import { SectionIcon } from '../components/common/SectionIcon';
 
 export const TourismContentAnalytics = () => {
   const { data, status } = useDashboard();
@@ -20,10 +21,8 @@ export const TourismContentAnalytics = () => {
       <section className="app-content-card">
         <div className="app-content-header">
           <div className="app-content-title-block">
-            <div className="app-content-title">Tourism content analytics</div>
-            <div className="app-content-subtitle">
-              Performance of destination content across the kiosk experience.
-            </div>
+            <SectionIcon name="tourism" />
+            <div className="app-content-title">Análisis de contenido turístico</div>
           </div>
         </div>
         <SkeletonBlock lines={5} />
@@ -41,70 +40,55 @@ export const TourismContentAnalytics = () => {
     <section className="app-content-card">
       <header className="app-content-header">
         <div className="app-content-title-block">
-          <div className="app-content-title">Tourism content analytics</div>
-          <div className="app-content-subtitle">
-            Deep dive into which content resonates most with visitors.
-          </div>
+          <SectionIcon name="tourism" />
+          <div className="app-content-title">Análisis de contenido turístico</div>
         </div>
       </header>
 
       <div className="app-grid">
         <div className="app-grid-half">
-          <ChartCard
-            title="Content views by category"
-            subtitle="Volume of views across key content groupings."
-          >
+          <ChartCard title="Vistas de contenido por categoría">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={tourismContent.contentViewsByCategory}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="category" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="category" stroke="#111827" />
+                <YAxis stroke="#111827" />
                 <Tooltip
                   contentStyle={{
                     background: '#ffffff',
-                    borderRadius: 8,
-                    border: '1px solid #e5e7eb',
+                    borderRadius: 0,
+                    border: '2px solid #000000',
                     fontSize: 12,
                     color: '#111827',
                   }}
                 />
                 <Bar
                   dataKey="views"
-                  radius={[8, 8, 2, 2]}
-                  fill="url(#contentViewsGradient)"
+                  radius={[0, 0, 0, 0]}
+                  fill="#b91c8c"
                   maxBarSize={56}
                 />
-                <defs>
-                  <linearGradient id="contentViewsGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#38bdf8" />
-                    <stop offset="50%" stopColor="#a855f7" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
         </div>
 
         <div className="app-grid-half">
-          <ChartCard
-            title="Average time on content"
-            subtitle="Average time visitors spend per content category."
-          >
+          <ChartCard title="Tiempo promedio en contenido">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={tourismContent.avgTimeOnContent}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="category" stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="category" stroke="#111827" />
                 <YAxis
-                  stroke="#9ca3af"
+                  stroke="#111827"
                   tickFormatter={(v) => `${v.toFixed(1)} min`}
                   domain={[0, 'dataMax + 1']}
                 />
                 <Tooltip
                   contentStyle={{
                     background: '#ffffff',
-                    borderRadius: 8,
-                    border: '1px solid #e5e7eb',
+                    borderRadius: 0,
+                    border: '2px solid #000000',
                     fontSize: 12,
                     color: '#111827',
                   }}
@@ -112,51 +96,41 @@ export const TourismContentAnalytics = () => {
                 />
                 <Bar
                   dataKey="minutes"
-                  radius={[8, 8, 2, 2]}
-                  fill="url(#timeOnContentGradient)"
+                  radius={[0, 0, 0, 0]}
+                  fill="#111827"
                   maxBarSize={56}
                 />
-                <defs>
-                  <linearGradient id="timeOnContentGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#22c55e" />
-                    <stop offset="50%" stopColor="#a855f7" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
         </div>
 
         <div className="app-grid-full">
-          <ChartCard
-            title="Engagement actions by category"
-            subtitle="Saves and shares as indicators of deeper content interest."
-          >
+          <ChartCard title="Acciones de interacción por categoría">
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={tourismContent.interactionsByCategory}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="category" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="category" stroke="#111827" />
+                <YAxis stroke="#111827" />
                 <Tooltip
                   contentStyle={{
                     background: '#ffffff',
-                    borderRadius: 8,
-                    border: '1px solid #e5e7eb',
+                    borderRadius: 0,
+                    border: '2px solid #000000',
                     fontSize: 12,
                     color: '#111827',
                   }}
                 />
                 <Bar
                   dataKey="saves"
-                  radius={[8, 8, 2, 2]}
-                  fill="#a855f7"
+                  radius={[0, 0, 0, 0]}
+                  fill="#b91c8c"
                   maxBarSize={48}
                 />
                 <Bar
                   dataKey="shares"
-                  radius={[8, 8, 2, 2]}
-                  fill="#38bdf8"
+                  radius={[0, 0, 0, 0]}
+                  fill="#111827"
                   maxBarSize={48}
                 />
               </BarChart>

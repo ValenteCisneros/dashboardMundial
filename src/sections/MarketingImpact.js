@@ -17,22 +17,19 @@ import {
 import { useDashboard } from '../context/DashboardContext';
 import { ChartCard } from '../components/common/ChartCard';
 import { SkeletonBlock } from '../components/common/SkeletonBlock';
+import { SectionIcon } from '../components/common/SectionIcon';
 
 const TOOLTIP_STYLE = {
   contentStyle: {
     background: '#ffffff',
-    borderRadius: 8,
-    border: '1px solid #e5e7eb',
+    borderRadius: 0,
+    border: '2px solid #000000',
     fontSize: 12,
     color: '#111827',
   },
 };
 
-const GRADIENT_IDS = {
-  bar: 'adBarGradient',
-  area: 'adAreaGradient',
-  donut: ['#a855f7', '#ec4899', '#38bdf8', '#22c55e', '#eab308'],
-};
+const DONUT_COLORS = ['#b91c8c', '#111827', '#6b7280', '#374151', '#9ca3af'];
 
 /** Format number as Mexican Pesos: MXN $ with thousands separators and two decimals. */
 function formatMxn(value) {
@@ -111,8 +108,8 @@ export const MarketingImpact = () => {
       <section className="app-content-card ad-section">
         <div className="app-content-header">
           <div className="app-content-title-block">
-            <div className="app-content-title">Advertising performance</div>
-            <div className="app-content-subtitle">Ad analytics and monetization metrics.</div>
+            <SectionIcon name="marketing" />
+            <div className="app-content-title">Impacto en marketing</div>
           </div>
         </div>
         <SkeletonBlock lines={6} />
@@ -132,39 +129,34 @@ export const MarketingImpact = () => {
     <section className="app-content-card ad-section">
       <header className="app-content-header ad-section-header">
         <div className="app-content-title-block">
-          <div className="app-content-title">Advertising performance</div>
-          <div className="app-content-subtitle">
-            Enterprise analytics for ad impressions, reach, CPM, CTR, and conversion revenue.
-          </div>
+          <SectionIcon name="marketing" />
+          <div className="app-content-title">Impacto en marketing</div>
         </div>
       </header>
 
-      {/* Executive overview */}
       <div className="ad-executive-block">
-        <h3 className="ad-block-title">Executive overview</h3>
-        <p className="ad-executive-copy">{summary.topInsight}</p>
+        <h3 className="ad-block-title">Resumen</h3>
         <div className="ad-health-badge" data-health={summary.health}>
-          Performance health: {summary.health}
+          {summary.health}
         </div>
       </div>
 
-      {/* Filters */}
       <div className="ad-filters">
         <div className="ad-filter-group">
-          <label className="ad-filter-label">Advertiser</label>
+          <label className="ad-filter-label">Anunciante</label>
           <select
             className="ad-filter-select"
             value={advertiserFilter}
             onChange={(e) => setAdvertiserFilter(e.target.value)}
           >
-            <option value="all">All advertisers</option>
+            <option value="all">Todos los anunciantes</option>
             {filters.advertisers.map((a) => (
               <option key={a.value} value={a.value}>{a.label}</option>
             ))}
           </select>
         </div>
         <div className="ad-filter-group">
-          <label className="ad-filter-label">Location</label>
+          <label className="ad-filter-label">Ubicación</label>
           <select
             className="ad-filter-select"
             value={locationFilter}
@@ -176,7 +168,7 @@ export const MarketingImpact = () => {
           </select>
         </div>
         <div className="ad-filter-group">
-          <label className="ad-filter-label">Time slot</label>
+          <label className="ad-filter-label">Franja horaria</label>
           <select
             className="ad-filter-select"
             value={timeSlotFilter}
@@ -189,47 +181,42 @@ export const MarketingImpact = () => {
         </div>
       </div>
 
-      {/* Top-level KPI summary row */}
       <div className="ad-kpi-summary">
         <div className="ad-kpi-tile ad-kpi-tile--primary">
-          <div className="ad-kpi-tile-label">Total impressions</div>
+          <div className="ad-kpi-tile-label">Impresiones totales</div>
           <div className="ad-kpi-tile-value">{ad.totalImpressionsSum?.toLocaleString() ?? '—'}</div>
         </div>
         <div className="ad-kpi-tile">
-          <div className="ad-kpi-tile-label">Avg frequency per user</div>
+          <div className="ad-kpi-tile-label">Frecuencia promedio por usuario</div>
           <div className="ad-kpi-tile-value">{ad.averageFrequencyPerUser?.value ?? '—'}</div>
-          <div className="ad-kpi-tile-meta">vs {ad.averageFrequencyPerUser?.previous} prior</div>
+          <div className="ad-kpi-tile-meta">vs {ad.averageFrequencyPerUser?.previous} anterior</div>
         </div>
         <div className="ad-kpi-tile">
-          <div className="ad-kpi-tile-label">Est. daily reach</div>
+          <div className="ad-kpi-tile-label">Alcance diario est.</div>
           <div className="ad-kpi-tile-value">{ad.estimatedDailyReach?.value?.toLocaleString() ?? '—'}</div>
-          <div className="ad-kpi-tile-meta">unique users</div>
+          <div className="ad-kpi-tile-meta">usuarios únicos</div>
         </div>
         <div className="ad-kpi-tile">
-          <div className="ad-kpi-tile-label">Est. CPM</div>
+          <div className="ad-kpi-tile-label">CPM est.</div>
           <div className="ad-kpi-tile-value">{formatMxn(ad.estimatedCPM?.value)}</div>
         </div>
         <div className="ad-kpi-tile">
           <div className="ad-kpi-tile-label">CTR</div>
           <div className="ad-kpi-tile-value">{ad.ctr?.value != null ? `${ad.ctr.value}%` : '—'}</div>
-          <div className="ad-kpi-tile-meta">registration landing</div>
+          <div className="ad-kpi-tile-meta">landing de registro</div>
         </div>
         <div className="ad-kpi-tile">
-          <div className="ad-kpi-tile-label">Revenue per click</div>
+          <div className="ad-kpi-tile-label">Ingresos por clic</div>
           <div className="ad-kpi-tile-value">{formatMxn(ad.revenuePerClick?.value)}</div>
         </div>
         <div className="ad-kpi-tile">
-          <div className="ad-kpi-tile-label">Revenue per lead</div>
+          <div className="ad-kpi-tile-label">Ingresos por lead</div>
           <div className="ad-kpi-tile-value">{formatMxn(ad.revenuePerLead?.value)}</div>
         </div>
       </div>
 
-      {/* Total Impressions per Ad */}
       <div className="ad-block">
-        <ChartCard
-          title="Total impressions per ad"
-          subtitle="Total number of times each advertisement was displayed. Ranked by highest impressions."
-        >
+        <ChartCard title="Impresiones totales por anuncio">
           <div className="ad-chart-row">
             <ResponsiveContainer width="100%" height={280}>
               <BarChart
@@ -237,113 +224,84 @@ export const MarketingImpact = () => {
                 layout="vertical"
                 margin={{ left: 8, right: 24 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" horizontal={false} />
-                <XAxis type="number" stroke="#6b7280" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
-                <YAxis type="category" dataKey="adName" width={140} stroke="#6b7280" tick={{ fontSize: 11 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" horizontal={false} />
+                <XAxis type="number" stroke="#111827" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                <YAxis type="category" dataKey="adName" width={140} stroke="#111827" tick={{ fontSize: 11 }} />
                 <Tooltip {...TOOLTIP_STYLE} formatter={(v) => v.toLocaleString()} />
-                <Bar dataKey="impressions" fill="url(#adBarGradient)" radius={[0, 4, 4, 0]} maxBarSize={28} />
+                <Bar dataKey="impressions" fill="#b91c8c" radius={[0, 0, 0, 0]} maxBarSize={28} />
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <defs>
-            <linearGradient id="adBarGradient" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#6366f1" />
-              <stop offset="50%" stopColor="#a855f7" />
-              <stop offset="100%" stopColor="#ec4899" />
-            </linearGradient>
-          </defs>
         </ChartCard>
       </div>
 
-      {/* Average Frequency per User + Average Exposure Time */}
       <div className="ad-grid-2">
         <ChartCard
-          title="Average frequency per user"
-          subtitle="Average number of times a single user was exposed to the same ad in one session."
-          rightMeta={<span className="chart-meta-pill">{ad.averageFrequencyPerUser?.value} avg</span>}
+          title="Frecuencia promedio por usuario"
+          rightMeta={<span className="chart-meta-pill">{ad.averageFrequencyPerUser?.value} prom.</span>}
         >
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={ad.averageFrequencyPerUser?.distribution || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-              <XAxis dataKey="bucket" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+              <XAxis dataKey="bucket" stroke="#111827" />
+              <YAxis stroke="#111827" />
               <Tooltip {...TOOLTIP_STYLE} />
-              <Bar dataKey="users" fill="url(#adFreqGradient)" radius={[6, 6, 0, 0]} maxBarSize={48} />
-              <defs>
-                <linearGradient id="adFreqGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#a855f7" />
-                  <stop offset="100%" stopColor="#ec4899" />
-                </linearGradient>
-              </defs>
+              <Bar dataKey="users" fill="#b91c8c" radius={[0, 0, 0, 0]} maxBarSize={48} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard
-          title="Average exposure time per ad"
-          subtitle="Average seconds each ad remained visible on screen, by advertiser."
-        >
+        <ChartCard title="Tiempo promedio de exposición por anuncio">
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={ad.averageExposureTimePerAd || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-              <XAxis dataKey="advertiser" stroke="#6b7280" tick={{ fontSize: 10 }} />
-              <YAxis stroke="#6b7280" tickFormatter={(v) => `${v}s`} />
-              <Tooltip {...TOOLTIP_STYLE} formatter={(v) => `${v} sec`} />
-              <Bar dataKey="seconds" fill="url(#adExposureGradient)" radius={[6, 6, 0, 0]} maxBarSize={40} />
-              <defs>
-                <linearGradient id="adExposureGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#38bdf8" />
-                  <stop offset="100%" stopColor="#a855f7" />
-                </linearGradient>
-              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+              <XAxis dataKey="advertiser" stroke="#111827" tick={{ fontSize: 10 }} />
+              <YAxis stroke="#111827" tickFormatter={(v) => `${v}s`} />
+              <Tooltip {...TOOLTIP_STYLE} formatter={(v) => `${v} s`} />
+              <Bar dataKey="seconds" fill="#111827" radius={[0, 0, 0, 0]} maxBarSize={40} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
-      {/* Estimated Daily Reach */}
       <div className="ad-block">
         <ChartCard
-          title="Estimated daily reach"
-          subtitle="Estimated unique individuals exposed to rotating ads per day."
+          title="Alcance diario estimado"
           rightMeta={
             <span className="chart-meta-pill">
-              {ad.estimatedDailyReach?.value?.toLocaleString()} avg
+              {ad.estimatedDailyReach?.value?.toLocaleString()} prom.
             </span>
           }
         >
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={ad.estimatedDailyReach?.dailyTrend || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-              <XAxis dataKey="date" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+              <XAxis dataKey="date" stroke="#111827" />
+              <YAxis stroke="#111827" />
               <Tooltip {...TOOLTIP_STYLE} />
-              <Line type="monotone" dataKey="reach" stroke="#a855f7" strokeWidth={2} dot={{ r: 3 }} />
+              <Line type="monotone" dataKey="reach" stroke="#b91c8c" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
-      {/* Impressions by Time Slot: heatmap + stacked bar */}
       <div className="ad-block">
-        <ChartCard
-          title="Impressions by time slot"
-          subtitle="Ad impressions by hourly time blocks to identify peak exposure windows."
-        >
+        <ChartCard title="Impresiones por franja horaria">
           <div className="ad-heatmap-wrap">
             <div className="ad-heatmap">
               <div className="ad-heatmap-row ad-heatmap-header">
-                <div className="ad-heatmap-cell ad-heatmap-label">Hour</div>
-                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+                <div className="ad-heatmap-cell ad-heatmap-label">Hora</div>
+                {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map((d) => (
                   <div key={d} className="ad-heatmap-cell ad-heatmap-header-cell">{d}</div>
                 ))}
               </div>
               {(ad.impressionsByTimeSlot?.heatmapData || []).slice(0, 12).map((row) => {
-                const maxVal = Math.max(...['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => row[d] || 0));
+                const dayKeys = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                const maxVal = Math.max(...dayKeys.map((d) => row[d] || 0));
                 return (
                   <div key={row.hour} className="ad-heatmap-row">
                     <div className="ad-heatmap-cell ad-heatmap-label">{row.hour}</div>
-                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+                    {dayKeys.map((d) => (
                       <div
                         key={d}
                         className="ad-heatmap-cell"
@@ -364,27 +322,25 @@ export const MarketingImpact = () => {
                 data={ad.impressionsByTimeSlot?.stackedByHour || []}
                 margin={{ top: 8, right: 8 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                <XAxis dataKey="hour" stroke="#6b7280" />
-                <YAxis stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+                <XAxis dataKey="hour" stroke="#111827" />
+                <YAxis stroke="#111827" />
                 <Tooltip {...TOOLTIP_STYLE} />
                 <Legend />
-                <Bar dataKey="Tourism Board" stackId="a" fill="#a855f7" />
-                <Bar dataKey="Regional Airlines" stackId="a" fill="#ec4899" />
-                <Bar dataKey="Hotel Group" stackId="a" fill="#38bdf8" />
-                <Bar dataKey="Local Experiences" stackId="a" fill="#22c55e" />
-                <Bar dataKey="Car Rental Co" stackId="a" fill="#eab308" />
+                <Bar dataKey="Tourism Board" stackId="a" fill="#b91c8c" />
+                <Bar dataKey="Regional Airlines" stackId="a" fill="#111827" />
+                <Bar dataKey="Hotel Group" stackId="a" fill="#6b7280" />
+                <Bar dataKey="Local Experiences" stackId="a" fill="#374151" />
+                <Bar dataKey="Car Rental Co" stackId="a" fill="#9ca3af" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </ChartCard>
       </div>
 
-      {/* Estimated CPM + Share of Exposure */}
       <div className="ad-grid-2">
         <ChartCard
-          title="Estimated CPM (cost per 1,000 impressions)"
-          subtitle="Estimated cost per thousand impressions for monetization analysis."
+          title="CPM estimado (costo por 1,000 impresiones)"
           rightMeta={
             <span className="chart-meta-pill">
               {formatMxn(ad.estimatedCPM?.value)}
@@ -394,9 +350,9 @@ export const MarketingImpact = () => {
           <div className="ad-table-wrap">
             <SortableTable
               columns={[
-                { key: 'advertiser', label: 'Advertiser', sortable: true },
+                { key: 'advertiser', label: 'Anunciante', sortable: true },
                 { key: 'cpm', label: 'CPM (MXN)', sortable: true, format: (v) => (v != null ? formatMxn(v) : '—') },
-                { key: 'impressions', label: 'Impressions', sortable: true, format: (v) => v?.toLocaleString() },
+                { key: 'impressions', label: 'Impresiones', sortable: true, format: (v) => v?.toLocaleString() },
               ]}
               data={ad.estimatedCPM?.comparisonByAdvertiser || []}
               defaultSortKey="impressions"
@@ -405,10 +361,7 @@ export const MarketingImpact = () => {
           </div>
         </ChartCard>
 
-        <ChartCard
-          title="Share of exposure by brand"
-          subtitle="Percentage of total screen time allocated to each advertiser."
-        >
+        <ChartCard title="Participación de exposición por marca">
           <div className="ad-donut-row">
             <ResponsiveContainer width="50%" height={200}>
               <PieChart>
@@ -423,7 +376,7 @@ export const MarketingImpact = () => {
                   paddingAngle={2}
                 >
                   {(ad.shareOfExposureByBrand || []).map((_, i) => (
-                    <Cell key={i} fill={GRADIENT_IDS.donut[i % GRADIENT_IDS.donut.length]} />
+                    <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip {...TOOLTIP_STYLE} formatter={(v) => `${v.toFixed(1)}%`} />
@@ -432,7 +385,7 @@ export const MarketingImpact = () => {
             <div className="ad-donut-legend">
               {(ad.shareOfExposureByBrand || []).map((row, i) => (
                 <div key={row.brand} className="ad-donut-legend-item">
-                  <span className="ad-donut-dot" style={{ background: GRADIENT_IDS.donut[i % GRADIENT_IDS.donut.length] }} />
+                  <span className="ad-donut-dot" style={{ background: DONUT_COLORS[i % DONUT_COLORS.length] }} />
                   <span>{row.brand}: {row.sharePct.toFixed(1)}%</span>
                 </div>
               ))}
@@ -441,9 +394,9 @@ export const MarketingImpact = () => {
           <div className="ad-table-wrap ad-table-wrap--compact">
             <SortableTable
               columns={[
-                { key: 'brand', label: 'Brand', sortable: true },
-                { key: 'sharePct', label: 'Share %', sortable: true, format: (v) => `${v?.toFixed(1)}%` },
-                { key: 'secondsTotal', label: 'Total sec', sortable: true, format: (v) => v?.toLocaleString() },
+                { key: 'brand', label: 'Marca', sortable: true },
+                { key: 'sharePct', label: 'Participación %', sortable: true, format: (v) => `${v?.toFixed(1)}%` },
+                { key: 'secondsTotal', label: 'Total seg', sortable: true, format: (v) => v?.toLocaleString() },
               ]}
               data={ad.shareOfExposureByBrand || []}
               defaultSortKey="sharePct"
@@ -453,20 +406,18 @@ export const MarketingImpact = () => {
         </ChartCard>
       </div>
 
-      {/* CTR by advertiser */}
       <div className="ad-block">
         <ChartCard
-          title="CTR (click-through rate)"
-          subtitle="Clicks divided by impressions for ads on the registration landing page."
-          rightMeta={<span className="chart-meta-pill">{ad.ctr?.value}% overall</span>}
+          title="CTR (tasa de clics)"
+          rightMeta={<span className="chart-meta-pill">{ad.ctr?.value}% total</span>}
         >
           <div className="ad-table-wrap">
             <SortableTable
               columns={[
-                { key: 'advertiser', label: 'Advertiser', sortable: true },
+                { key: 'advertiser', label: 'Anunciante', sortable: true },
                 { key: 'ctr', label: 'CTR %', sortable: true, format: (v) => `${v}%` },
-                { key: 'clicks', label: 'Clicks', sortable: true, format: (v) => v?.toLocaleString() },
-                { key: 'impressions', label: 'Impressions', sortable: true, format: (v) => v?.toLocaleString() },
+                { key: 'clicks', label: 'Clics', sortable: true, format: (v) => v?.toLocaleString() },
+                { key: 'impressions', label: 'Impresiones', sortable: true, format: (v) => v?.toLocaleString() },
               ]}
               data={ad.ctr?.byAdvertiser || []}
               defaultSortKey="ctr"
@@ -476,12 +427,8 @@ export const MarketingImpact = () => {
         </ChartCard>
       </div>
 
-      {/* Post-click conversion funnel */}
       <div className="ad-block">
-        <ChartCard
-          title="Post-click conversion rate"
-          subtitle="Impressions to clicks to conversions (desired action completed)."
-        >
+        <ChartCard title="Tasa de conversión post-clic">
           <div className="ad-funnel-wrap">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart
@@ -489,29 +436,20 @@ export const MarketingImpact = () => {
                 layout="vertical"
                 margin={{ left: 120, right: 24 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" horizontal={false} />
-                <XAxis type="number" stroke="#6b7280" tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v} />
-                <YAxis type="category" dataKey="label" width={110} stroke="#6b7280" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#000000" horizontal={false} />
+                <XAxis type="number" stroke="#111827" tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v} />
+                <YAxis type="category" dataKey="label" width={110} stroke="#111827" />
                 <Tooltip {...TOOLTIP_STYLE} formatter={(v) => v.toLocaleString()} />
-                <Bar dataKey="value" fill="url(#adFunnelGradient)" radius={[0, 4, 4, 0]} maxBarSize={44} />
-                <defs>
-                  <linearGradient id="adFunnelGradient" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#22c55e" />
-                    <stop offset="50%" stopColor="#a855f7" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
+                <Bar dataKey="value" fill="#b91c8c" radius={[0, 0, 0, 0]} maxBarSize={44} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </ChartCard>
       </div>
 
-      {/* Revenue per Click + Revenue per Lead */}
       <div className="ad-grid-2">
         <ChartCard
-          title="Revenue per click (CPC model)"
-          subtitle="Revenue generated per ad click under cost-per-click monetization."
+          title="Ingresos por clic (modelo CPC)"
           rightMeta={
             <span className="chart-meta-pill">
               {formatMxn(ad.revenuePerClick?.value)}
@@ -520,18 +458,17 @@ export const MarketingImpact = () => {
         >
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={ad.revenuePerClick?.series || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-              <XAxis dataKey="date" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" tickFormatter={(v) => formatMxn(v)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#000000" vertical={false} />
+              <XAxis dataKey="date" stroke="#111827" />
+              <YAxis stroke="#111827" tickFormatter={(v) => formatMxn(v)} />
               <Tooltip {...TOOLTIP_STYLE} formatter={(v) => formatMxn(v)} />
-              <Line type="monotone" dataKey="revenuePerClick" stroke="#22c55e" strokeWidth={2} dot={{ r: 3 }} />
+              <Line type="monotone" dataKey="revenuePerClick" stroke="#b91c8c" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
 
         <ChartCard
-          title="Revenue per lead generated"
-          subtitle="Revenue from completed registrations or qualified leads."
+          title="Ingresos por lead generado"
           rightMeta={
             <span className="chart-meta-pill">
               {formatMxn(ad.revenuePerLead?.value)}
@@ -541,8 +478,8 @@ export const MarketingImpact = () => {
           <div className="ad-table-wrap">
             <SortableTable
               columns={[
-                { key: 'advertiser', label: 'Advertiser', sortable: true },
-                { key: 'revenuePerLead', label: 'Rev/lead (MXN)', sortable: true, format: (v) => formatMxn(v) },
+                { key: 'advertiser', label: 'Anunciante', sortable: true },
+                { key: 'revenuePerLead', label: 'Ing/lead (MXN)', sortable: true, format: (v) => formatMxn(v) },
                 { key: 'leads', label: 'Leads', sortable: true, format: (v) => v?.toLocaleString() },
               ]}
               data={ad.revenuePerLead?.byAdvertiser || []}
