@@ -2,6 +2,19 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Full-stack setup
+
+The dashboard uses a Node/Express/Prisma backend and PostgreSQL. To run everything:
+
+1. Copy `.env.example` to `.env` and set `DATABASE_URL` (PostgreSQL connection string).
+2. Install dependencies: `npm install --legacy-peer-deps`
+3. Generate Prisma client: `npm run db:generate` or `npx prisma generate --schema=server/prisma/schema.prisma`
+4. Create DB and tables: `npm run db:migrate` or `npx prisma migrate dev --schema=server/prisma/schema.prisma`
+5. (Optional) Seed sample data: `npm run db:seed` or `npx prisma db seed`
+6. Start API + React: `npm run dev` (server on port 5000, React on 3000)
+
+Other scripts: `npm run server` (API only), `npm run db:studio` (Prisma Studio).
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -28,6 +41,30 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run server`
+
+Starts the Express API only (port 5000). Requires `.env` with `DATABASE_URL`.
+
+### `npm run dev`
+
+Runs the API and the React app at the same time (API on 5000, app on 3000).
+
+### `npm run db:generate`
+
+Generates the Prisma client from `server/prisma/schema.prisma`.
+
+### `npm run db:migrate`
+
+Runs Prisma migrations (creates/updates the PostgreSQL schema).
+
+### `npm run db:seed`
+
+Seeds the database with sample data (visitors, sessions, events, ads, leads).
+
+### `npm run db:studio`
+
+Opens Prisma Studio to browse and edit data.
 
 ### `npm run eject`
 

@@ -1,23 +1,31 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
+# Dependencies
+node_modules
 /.pnp
 .pnp.js
 
-# testing
+# Environment (never commit credentials)
+.env
+.env.*
+!.env.example
+
+# Build / output
+/build
+/dist
 /coverage
 
-# production
-/build
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# misc
+# Prisma
+.prisma
+
+# Misc
 .DS_Store
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
