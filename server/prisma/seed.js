@@ -105,6 +105,45 @@ async function main() {
     skipDuplicates: true,
   });
 
+  // Monterrey places (lat/lng approximate); sponsors: adv1, adv2
+  const monterreyCenter = { lat: 25.6866, lng: -100.3161 };
+  const placesData = [
+    { name: 'Macroplaza', latitude: 25.6700, longitude: -100.3100, category: 'Cultural', description: 'Plaza central y símbolo de Monterrey.', advertiserId: adv1.id },
+    { name: 'Parque Fundidora', latitude: 25.6789, longitude: -100.2850, category: 'Nature', description: 'Parque urbano con museos y espacios verdes.', advertiserId: null },
+    { name: 'Museo del Acero Horno 3', latitude: 25.6810, longitude: -100.2870, category: 'Cultural', description: 'Museo interactivo en el Parque Fundidora.', advertiserId: null },
+    { name: 'Obispado', latitude: 25.6720, longitude: -100.3380, category: 'Cultural', description: 'Museo y mirador histórico.', advertiserId: adv2.id },
+    { name: 'Gruta de García', latitude: 25.8750, longitude: -100.5200, category: 'Nature', description: 'Cavernas naturales cerca de Monterrey.', advertiserId: null },
+    { name: 'Barrio Antiguo', latitude: 25.6680, longitude: -100.3180, category: 'Gastronomy', description: 'Zona de bares, restaurantes y vida nocturna.', advertiserId: null },
+    { name: 'Cascada Cola de Caballo', latitude: 25.3667, longitude: -100.2333, category: 'Nature', description: 'Cascada y parque ecoturístico.', advertiserId: adv1.id },
+  ];
+  for (const p of placesData) {
+    await prisma.place.upsert({
+      where: { id: `seed-place-${p.name.replace(/\s+/g, '-').toLowerCase()}` },
+      update: {},
+      create: { id: `seed-place-${p.name.replace(/\s+/g, '-').toLowerCase()}`, ...p },
+    });
+  }
+
+  // FIFA World Cup 2026 – partidos de ejemplo (México/Canadá/USA, jun–jul 2026)
+  const june = (d) => new Date(2026, 5, d, 14, 0, 0);
+  const july = (d) => new Date(2026, 6, d, 18, 0, 0);
+  const matchesData = [
+    { homeTeam: 'México', awayTeam: 'TBD', venue: 'Estadio BBVA (Monterrey)', matchDate: june(12), phase: 'group' },
+    { homeTeam: 'USA', awayTeam: 'TBD', venue: 'Los Angeles', matchDate: june(11), phase: 'group' },
+    { homeTeam: 'Canada', awayTeam: 'TBD', venue: 'Toronto', matchDate: june(13), phase: 'group' },
+    { homeTeam: 'México', awayTeam: 'TBD', venue: 'Estadio BBVA (Monterrey)', matchDate: june(20), phase: 'group' },
+    { homeTeam: 'TBD', awayTeam: 'TBD', venue: 'Estadio BBVA (Monterrey)', matchDate: july(4), phase: 'round_16' },
+    { homeTeam: 'TBD', awayTeam: 'TBD', venue: 'Estadio Azteca (CDMX)', matchDate: july(5), phase: 'round_16' },
+  ];
+  for (let i = 0; i < matchesData.length; i++) {
+    const m = matchesData[i];
+    await prisma.match.upsert({
+      where: { id: `seed-match-${i + 1}` },
+      update: {},
+      create: { id: `seed-match-${i + 1}`, ...m },
+    });
+  }
+
   console.log('Seed completed');
 }
 

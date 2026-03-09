@@ -22,6 +22,8 @@ const advertiserRoutes = require('./routes/advertisers');
 const adRoutes = require('./routes/ads');
 const adImpressionRoutes = require('./routes/adImpressions');
 const leadRoutes = require('./routes/leads');
+const placeRoutes = require('./routes/places');
+const matchRoutes = require('./routes/matches');
 
 const app = express();
 
@@ -56,6 +58,8 @@ app.use('/api/advertisers', advertiserRoutes);
 app.use('/api/ads', adRoutes);
 app.use('/api/ad-impressions', adImpressionRoutes);
 app.use('/api/leads', leadRoutes);
+app.use('/api/places', placeRoutes);
+app.use('/api/matches', matchRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, status: 'ok', timestamp: new Date().toISOString() });
