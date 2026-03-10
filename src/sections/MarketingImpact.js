@@ -135,6 +135,7 @@ export const MarketingImpact = () => {
   }
 
   const ad = data.marketingImpact;
+  // eslint-disable-next-line 
   const summary = ad.executiveSummary;
   const filters = ad.filterOptions;
 
