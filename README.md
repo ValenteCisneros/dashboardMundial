@@ -4,16 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Full-stack setup
 
-The dashboard uses a Node/Express/Prisma backend and PostgreSQL. To run everything:
-
-1. Copy `.env.example` to `.env` and set `DATABASE_URL` (PostgreSQL connection string).
-2. Install dependencies: `npm install --legacy-peer-deps`
-3. Generate Prisma client: `npm run db:generate` or `npx prisma generate --schema=server/prisma/schema.prisma`
-4. Create DB and tables: `npm run db:migrate` or `npx prisma migrate dev --schema=server/prisma/schema.prisma`
-5. (Optional) Seed sample data: `npm run db:seed` or `npx prisma db seed`
-6. Start API + React: `npm run dev` (server on port 5000, React on 3000)
-
-Other scripts: `npm run server` (API only), `npm run db:studio` (Prisma Studio).
+The dashboard uses a Node/Express/Prisma backend and PostgreSQL.
 
 ## Available Scripts
 
