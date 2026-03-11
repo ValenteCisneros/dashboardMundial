@@ -1,0 +1,877 @@
+/* Turismo Monterrey – Funnel QR / Kiosk landing */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+.turismo-page {
+  --turismo-bg: #0a0c10;
+  --turismo-surface: rgba(255, 255, 255, 0.04);
+  --turismo-border: rgba(255, 255, 255, 0.08);
+  --turismo-text: #f1f5f9;
+  --turismo-muted: #94a3b8;
+  --turismo-accent: #f59e0b;
+  --turismo-accent-dim: rgba(245, 158, 11, 0.2);
+  --turismo-success: #34d399;
+  --turismo-error: #f87171;
+  --turismo-radius: 16px;
+  --turismo-font-head: 'Outfit', system-ui, sans-serif;
+  --turismo-font-body: 'DM Sans', system-ui, sans-serif;
+
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  font-family: var(--turismo-font-body);
+  color: var(--turismo-text);
+}
+
+.turismo-lang-switcher {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  display: flex;
+  gap: 0;
+  background: var(--turismo-surface);
+  border: 1px solid var(--turismo-border);
+  border-radius: 10px;
+  padding: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.turismo-lang-btn {
+  font-family: var(--turismo-font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--turismo-muted);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.turismo-lang-btn:hover {
+  color: var(--turismo-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.turismo-lang-btn--active {
+  background: var(--turismo-accent);
+  color: #0a0c10;
+}
+
+.turismo-lang-btn--active:hover {
+  background: #fbbf24;
+  color: #0a0c10;
+}
+
+.turismo-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, var(--turismo-accent-dim) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(34, 211, 238, 0.05) 0%, transparent 50%),
+    var(--turismo-bg);
+}
+
+.turismo-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.turismo-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
+
+.turismo-hero-wrap {
+  width: 100%;
+  max-width: 880px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Hero centrado; tarjetas FIFA solo en los laterales, sin tocar el título */
+.turismo-hero-float-wrap {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.turismo-hero-float-wrap .turismo-hero {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+  flex-shrink: 0;
+}
+
+.turismo-fifa-float {
+  position: absolute;
+  z-index: 1;
+  width: 200px;
+  max-width: calc(50% - 240px);
+}
+
+.turismo-fifa-float--tl {
+  top: 18%;
+  left: 0;
+  transform: rotate(-3deg);
+}
+
+.turismo-fifa-float--tr {
+  top: 18%;
+  right: 0;
+  transform: rotate(3deg);
+}
+
+.turismo-fifa-float--bl {
+  bottom: 18%;
+  left: 0;
+  transform: rotate(2deg);
+}
+
+.turismo-fifa-float--br {
+  bottom: 18%;
+  right: 0;
+  transform: rotate(-2deg);
+}
+
+.turismo-fifa-float .turismo-match-card {
+  width: 100%;
+  max-width: 200px;
+}
+
+@media (max-width: 700px) {
+  .turismo-hero-float-wrap {
+    flex-direction: column;
+    min-height: auto;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+  }
+
+  .turismo-fifa-float {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  .turismo-fifa-float .turismo-match-card {
+    max-width: none;
+  }
+}
+
+.turismo-ad-slot {
+  padding: 0;
+  background: var(--turismo-surface);
+  border: 1px solid var(--turismo-border);
+  border-radius: var(--turismo-radius);
+  overflow: hidden;
+  text-align: center;
+}
+
+.turismo-ad-slot--hero {
+  min-height: 200px;
+}
+
+.turismo-ad-image {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.turismo-ad-slot--hero .turismo-ad-image {
+  height: 220px;
+}
+
+.turismo-ad-image--mid {
+  height: 160px;
+}
+
+.turismo-ad-image--footer {
+  height: 140px;
+}
+
+.turismo-ad-label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--turismo-muted);
+  padding: 0.5rem 1rem 0;
+}
+
+.turismo-ad-placeholder {
+  font-size: 0.85rem;
+  color: var(--turismo-muted);
+  opacity: 0.8;
+  padding: 0.5rem 1rem 1rem;
+}
+
+.turismo-section-banner {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.turismo-section {
+  animation: turismo-fade-up 0.5s ease-out both;
+}
+
+.turismo-section-title {
+  font-family: var(--turismo-font-head);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: var(--turismo-text);
+}
+
+.turismo-section-desc {
+  font-size: 0.85rem;
+  color: var(--turismo-muted);
+  margin: 0 0 1rem;
+}
+
+.turismo-map-wrap {
+  width: 100%;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--turismo-border);
+  margin-bottom: 1.25rem;
+  background: var(--turismo-bg);
+}
+
+.turismo-map {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.turismo-map .leaflet-popup-content-wrapper {
+  background: var(--turismo-bg);
+  color: var(--turismo-text);
+  border: 1px solid var(--turismo-border);
+  border-radius: 8px;
+}
+
+.turismo-map .leaflet-popup-tip {
+  background: var(--turismo-bg);
+}
+
+.turismo-places-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.turismo-matches-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.turismo-worldcup .turismo-section-banner {
+  margin-bottom: 0.75rem;
+}
+
+.turismo-match-card--float {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.turismo-match-card--float:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.turismo-place-card {
+  padding: 0;
+  background: var(--turismo-surface);
+  border: 1px solid var(--turismo-border);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.turismo-place-image-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 200px;
+  background: var(--turismo-bg);
+}
+
+.turismo-place-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.turismo-place-card .turismo-place-info {
+  padding: 1rem;
+}
+
+.turismo-place-sponsor {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--turismo-accent);
+  background: var(--turismo-accent-dim);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.turismo-place-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.turismo-place-name {
+  font-size: 1rem;
+  color: var(--turismo-text);
+}
+
+.turismo-place-meta {
+  font-size: 0.8rem;
+  color: var(--turismo-muted);
+}
+
+.turismo-place-desc {
+  font-size: 0.85rem;
+  color: var(--turismo-muted);
+  margin: 0.5rem 0 0;
+  line-height: 1.4;
+}
+
+.turismo-match-card {
+  padding: 1.1rem 1.25rem;
+  background: rgba(10, 12, 16, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--turismo-border);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  line-height: 1.45;
+}
+
+.turismo-match-teams {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--turismo-text);
+  letter-spacing: 0.02em;
+}
+
+.turismo-match-meta {
+  font-size: 0.8rem;
+  color: var(--turismo-muted);
+}
+
+.turismo-match-date {
+  font-size: 0.78rem;
+  color: var(--turismo-muted);
+  opacity: 0.95;
+}
+
+.turismo-match-phase {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--turismo-accent);
+  margin-top: 0.25rem;
+}
+
+/* Hero */
+.turismo-hero {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding: 2.25rem 1.5rem;
+  border-radius: var(--turismo-radius);
+  overflow: hidden;
+}
+
+.turismo-hero-bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.turismo-hero-bg-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 12, 16, 0.75) 0%, rgba(10, 12, 16, 0.95) 100%);
+}
+
+.turismo-hero .turismo-hero-badge,
+.turismo-hero .turismo-hero-title,
+.turismo-hero .turismo-hero-desc,
+.turismo-hero .turismo-cta {
+  position: relative;
+  z-index: 1;
+}
+
+.turismo-hero-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--turismo-muted);
+  margin-bottom: 1.75rem;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--turismo-border);
+  border-radius: 999px;
+  animation: turismo-fade-up 0.6s ease-out both;
+}
+
+.turismo-hero-title {
+  font-family: var(--turismo-font-head);
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 1.25rem;
+  letter-spacing: 0.02em;
+  animation: turismo-fade-up 0.6s ease-out 0.1s both;
+}
+
+.turismo-hero-title-line {
+  display: block;
+}
+
+.turismo-hero-title-accent {
+  color: var(--turismo-accent);
+  text-shadow: 0 0 40px var(--turismo-accent-dim);
+}
+
+.turismo-hero-desc {
+  font-size: 1.05rem;
+  color: var(--turismo-muted);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+  max-width: 36ch;
+  margin-left: auto;
+  margin-right: auto;
+  animation: turismo-fade-up 0.6s ease-out 0.2s both;
+}
+
+.turismo-cta {
+  font-family: var(--turismo-font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.95rem 2rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: turismo-fade-up 0.6s ease-out 0.3s both;
+}
+
+.turismo-cta:focus-visible {
+  outline: 2px solid var(--turismo-accent);
+  outline-offset: 2px;
+}
+
+.turismo-cta-primary {
+  background: var(--turismo-accent);
+  color: #0a0c10;
+  box-shadow: 0 4px 24px rgba(245, 158, 11, 0.35);
+}
+
+.turismo-cta-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.4);
+}
+
+.turismo-cta-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.turismo-cta-secondary {
+  background: var(--turismo-surface);
+  color: var(--turismo-text);
+  border: 1px solid var(--turismo-border);
+  flex-shrink: 0;
+}
+
+.turismo-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.turismo-cta:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Form section */
+.turismo-form-section {
+  width: 100%;
+  max-width: 480px;
+  animation: turismo-fade-up 0.5s ease-out;
+}
+
+.turismo-form-card {
+  background: var(--turismo-surface);
+  border: 1px solid var(--turismo-border);
+  border-radius: var(--turismo-radius);
+  padding: 2rem;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+}
+
+.turismo-form-title {
+  font-family: var(--turismo-font-head);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: var(--turismo-text);
+}
+
+.turismo-form-subtitle {
+  font-size: 0.9rem;
+  color: var(--turismo-muted);
+  margin: 0 0 1.5rem;
+}
+
+.turismo-upload-block {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--turismo-border);
+}
+
+.turismo-upload-hint {
+  font-size: 0.8rem;
+  color: var(--turismo-muted);
+  margin: 0.25rem 0 0.6rem;
+  line-height: 1.4;
+}
+
+.turismo-file-label {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.turismo-file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.turismo-file-cta {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--turismo-text);
+  background: var(--turismo-surface);
+  border: 1px solid var(--turismo-border);
+  border-radius: 10px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.turismo-file-label:hover .turismo-file-cta {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.turismo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.turismo-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.turismo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.turismo-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--turismo-muted);
+}
+
+.turismo-input {
+  width: 100%;
+  font-family: var(--turismo-font-body);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--turismo-border);
+  border-radius: 10px;
+  color: var(--turismo-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.turismo-input::placeholder {
+  color: var(--turismo-muted);
+  opacity: 0.7;
+}
+
+.turismo-input:focus {
+  outline: none;
+  border-color: var(--turismo-accent);
+  box-shadow: 0 0 0 3px var(--turismo-accent-dim);
+}
+
+.turismo-checkbox-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  margin-top: 0.25rem;
+}
+
+.turismo-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--turismo-accent);
+  cursor: pointer;
+}
+
+.turismo-checkbox-label {
+  font-size: 0.9rem;
+  color: var(--turismo-muted);
+  line-height: 1.45;
+}
+
+.turismo-error {
+  font-size: 0.85rem;
+  color: var(--turismo-error);
+  margin: 0;
+}
+
+.turismo-cta-submit {
+  margin-top: 0.5rem;
+}
+
+/* Success */
+.turismo-success {
+  text-align: center;
+  max-width: 420px;
+  animation: turismo-success-in 0.6s ease-out both;
+}
+
+.turismo-success-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  color: var(--turismo-success);
+  animation: turismo-scale-in 0.5s ease-out 0.2s both;
+}
+
+.turismo-success-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.turismo-success-title {
+  font-family: var(--turismo-font-head);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  color: var(--turismo-text);
+}
+
+.turismo-success-text {
+  font-size: 1.05rem;
+  color: var(--turismo-muted);
+  line-height: 1.6;
+  margin: 0 0 0.5rem;
+}
+
+.turismo-success-text strong {
+  color: var(--turismo-accent);
+  font-weight: 600;
+}
+
+.turismo-success-sub {
+  font-size: 0.85rem;
+  color: var(--turismo-muted);
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* Confetti-style celebration (CSS only) */
+.turismo-success-wrap {
+  position: relative;
+}
+
+.turismo-confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.turismo-confetti-piece {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  animation: turismo-confetti-fall 2.5s ease-out forwards;
+  animation-delay: var(--delay, 0s);
+  opacity: 0;
+}
+
+.turismo-confetti-piece:nth-child(1) { left: 10%; --delay: 0s; --dx: 2deg; background: #f59e0b; }
+.turismo-confetti-piece:nth-child(2) { left: 20%; --delay: 0.1s; --dx: -3deg; background: #34d399; }
+.turismo-confetti-piece:nth-child(3) { left: 30%; --delay: 0.05s; --dx: 1deg; background: #60a5fa; }
+.turismo-confetti-piece:nth-child(4) { left: 40%; --delay: 0.2s; --dx: -2deg; background: #f59e0b; }
+.turismo-confetti-piece:nth-child(5) { left: 50%; --delay: 0s; --dx: 2deg; background: #a78bfa; }
+.turismo-confetti-piece:nth-child(6) { left: 60%; --delay: 0.15s; --dx: -1deg; background: #34d399; }
+.turismo-confetti-piece:nth-child(7) { left: 70%; --delay: 0.08s; --dx: 3deg; background: #f59e0b; }
+.turismo-confetti-piece:nth-child(8) { left: 80%; --delay: 0.12s; --dx: -2deg; background: #60a5fa; }
+.turismo-confetti-piece:nth-child(9) { left: 90%; --delay: 0.18s; --dx: 1deg; background: #f472b6; }
+.turismo-confetti-piece:nth-child(10) { left: 15%; --delay: 0.22s; --dx: -1deg; background: #34d399; }
+.turismo-confetti-piece:nth-child(11) { left: 55%; --delay: 0.25s; --dx: 2deg; background: #f59e0b; }
+.turismo-confetti-piece:nth-child(12) { left: 75%; --delay: 0.1s; --dx: -2deg; background: #a78bfa; }
+
+@keyframes turismo-confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(-20px) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(var(--dx, 0deg));
+  }
+}
+
+/* Form back link */
+.turismo-form-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--turismo-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.turismo-form-back:hover {
+  color: var(--turismo-accent);
+}
+
+/* Promo strip for advertisers */
+.turismo-promo-strip {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--turismo-border);
+  text-align: center;
+}
+
+.turismo-promo-strip p {
+  font-size: 0.8rem;
+  color: var(--turismo-muted);
+  margin: 0;
+  opacity: 0.9;
+}
+
+.turismo-promo-strip a {
+  color: var(--turismo-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.turismo-promo-strip a:hover {
+  text-decoration: underline;
+}
+
+@keyframes turismo-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes turismo-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes turismo-success-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 520px) {
+  .turismo-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turismo-cta-secondary {
+    width: 100%;
+  }
+}

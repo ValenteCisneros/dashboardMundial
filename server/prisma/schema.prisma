@@ -56,11 +56,27 @@ model ContentView {
 }
 
 model Advertiser {
-  id   String @id @default(cuid())
-  name String
-  ads  Ad[]
+  id     String  @id @default(cuid())
+  name   String
+  ads    Ad[]
+  places Place[]
 
   @@map("advertisers")
+}
+
+model Place {
+  id           String       @id @default(cuid())
+  name         String
+  latitude     Float         @map("latitude")
+  longitude    Float         @map("longitude")
+  category     String
+  description  String?      @db.Text
+  imageUrl     String?      @map("image_url")
+  advertiserId String?       @map("advertiser_id")
+  advertiser   Advertiser?  @relation(fields: [advertiserId], references: [id], onDelete: SetNull)
+  createdAt    DateTime     @default(now()) @map("created_at")
+
+  @@map("places")
 }
 
 model Ad {
@@ -86,12 +102,27 @@ model AdImpression {
   @@map("ad_impressions")
 }
 
-model Lead {
+model Match {
   id        String   @id @default(cuid())
   sessionId String?  @map("session_id")
   source    String?
   createdAt DateTime @default(now()) @map("created_at")
   session   Session? @relation(fields: [sessionId], references: [id])
+
+  @@map("matches")
+}
+
+model Lead {
+  id                 String   @id @default(cuid())
+  sessionId          String?  @map("session_id")
+  session            Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  source             String?  // qr, game, turismo_monterrey, etc.
+  email              String?
+  firstName          String?  @map("first_name")
+  lastName           String?  @map("last_name")
+  phone              String?
+  consentNewsletter  Boolean  @default(false) @map("consent_newsletter")
+  createdAt          DateTime @default(now()) @map("created_at")
 
   @@map("leads")
 }
