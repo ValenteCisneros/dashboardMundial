@@ -1,10 +1,15 @@
+## Evidencia AWS
+El dashboard y la alicación que viven en la instancia EC2 y la evidencia de su implemtación (que se encuentran en una ip pública) se encuentran en la carpeta img de este repositorio, se uso una base de datos PostgreSQL que vive en el servicio Aurora RDS y el código se quedo instalado en la instacia EC2 mediante los siguientes comandos.
+
+# Código para la aplicación.
+sudo apt install screen
+screen -S react-app
+npm start
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Full-stack setup
-
-The dashboard uses a Node/Express/Prisma backend and PostgreSQL.
 
 ## Available Scripts
 
